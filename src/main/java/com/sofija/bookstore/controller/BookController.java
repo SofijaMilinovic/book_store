@@ -2,6 +2,7 @@ package com.sofija.bookstore.controller;
 
 import com.sofija.bookstore.model.Book;
 import com.sofija.bookstore.service.BookService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/books")
+@CrossOrigin(origins = "*")
 public class BookController {
 
     @Resource
