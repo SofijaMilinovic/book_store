@@ -25,9 +25,6 @@ public class Book {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "price")
     private double price;
 
@@ -72,14 +69,6 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public double getPrice() {
