@@ -1,7 +1,6 @@
 package com.sofija.bookstore.model;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,9 +29,6 @@ public class User {
 
     @Column(name = "password")
     private String password;
-
-    @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
 
     public User() {
     }
@@ -83,14 +79,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
 
     @Override
