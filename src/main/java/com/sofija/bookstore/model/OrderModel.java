@@ -1,7 +1,5 @@
 package com.sofija.bookstore.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +20,7 @@ public class OrderModel {
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     private OrderStatusModel orderStatusModel;
 
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="orderModel")
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="order")
     private List<OrderEntryModel> orderEntryModels;
 
     @Column(name = "address")

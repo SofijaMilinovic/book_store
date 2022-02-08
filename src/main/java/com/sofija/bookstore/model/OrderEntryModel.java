@@ -1,7 +1,5 @@
 package com.sofija.bookstore.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -14,7 +12,7 @@ public class OrderEntryModel {
     private int id;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    private OrderModel orderModel;
+    private OrderModel order;
 
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id")
@@ -34,12 +32,12 @@ public class OrderEntryModel {
         this.id = id;
     }
 
-    public OrderModel getOrderModel() {
-        return orderModel;
+    public OrderModel getOrder() {
+        return order;
     }
 
-    public void setOrderModel(OrderModel orderModel) {
-        this.orderModel = orderModel;
+    public void setOrder(OrderModel order) {
+        this.order = order;
     }
 
     public BookModel getBookModel() {
@@ -63,11 +61,11 @@ public class OrderEntryModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderEntryModel that = (OrderEntryModel) o;
-        return id == that.id && orderModel.equals(that.orderModel);
+        return id == that.id && order.equals(that.order);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, orderModel);
+        return Objects.hash(id, order);
     }
 }
