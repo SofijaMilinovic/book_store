@@ -36,11 +36,22 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public BookModel createNewBook(BookModel bookModel) {
+    public BookModel create(BookModel bookModel) {
         GenreModel genreModel = genreRepository.getById(bookModel.getGenreModel().getId());
         AuthorModel authorModel = authorRepository.getById(bookModel.getAuthorModel().getId());
         bookModel.setGenreModel(genreModel);
         bookModel.setAuthorModel(authorModel);
         return bookRepository.save(bookModel);
+    }
+
+    public void update(BookModel bookModel) {
+        bookRepository.update(
+                bookModel.getTitle(),
+                bookModel.getImagePath(),
+                bookModel.getPrice(),
+                bookModel.getAuthorModel().getId(),
+                bookModel.getGenreModel().getId(),
+                bookModel.getId()
+        );
     }
 }

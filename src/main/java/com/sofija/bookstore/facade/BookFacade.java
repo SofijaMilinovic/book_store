@@ -34,10 +34,15 @@ public class BookFacade {
         bookService.delete(id);
     }
 
-    public BookData createNewBook(BookData bookData) {
+    public BookData createOrUpdate(BookData bookData) {
         BookModel bookModel = createBookModel(bookData);
-        BookModel createdBookModel = bookService.createNewBook(bookModel);
+        BookModel createdBookModel = bookService.create(bookModel);
         return createBookData(createdBookModel);
+    }
+
+    public void update(BookData bookData) {
+        BookModel bookModel = createBookModel(bookData);
+        bookService.update(bookModel);
     }
 
     public BookData createBookData(BookModel bookModel) {
@@ -69,6 +74,7 @@ public class BookFacade {
 
     private BookModel createBookModel(BookData bookData) {
         BookModel bookModel = new BookModel();
+        bookModel.setId(bookData.getId());
         bookModel.setAuthorModel(createAuthorModel(bookData.getAuthorData()));
         bookModel.setGenreModel(createGenreModel(bookData.getGenreData()));
         bookModel.setPrice(bookData.getPrice());
