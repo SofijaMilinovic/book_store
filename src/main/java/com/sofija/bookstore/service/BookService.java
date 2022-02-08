@@ -16,4 +16,13 @@ public class BookService {
     public List<BookModel> getAll() {
         return bookRepository.findAll();
     }
+
+    public BookModel getById(int id) {
+        return bookRepository.findById(id)
+                .orElse(null);
+    }
+
+    public void delete(int id) {
+        bookRepository.deleteById(id);
+    }
 }

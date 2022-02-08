@@ -20,8 +20,8 @@ public class UserController {
         return userFacade.getAll();
     }
 
-    @GetMapping("/{userId}")
-    public UserData getById(@PathVariable Integer userId) {
-        return userFacade.getById(userId);
+    @GetMapping("/{id}")
+    public UserData getById(@PathVariable int id) {
+        return userFacade.getById(id);
     }
 }

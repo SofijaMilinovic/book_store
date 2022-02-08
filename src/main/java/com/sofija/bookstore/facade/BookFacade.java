@@ -3,6 +3,7 @@ package com.sofija.bookstore.facade;
 import com.sofija.bookstore.data.AuthorData;
 import com.sofija.bookstore.data.BookData;
 import com.sofija.bookstore.data.GenreData;
+import com.sofija.bookstore.exception.BookException;
 import com.sofija.bookstore.model.AuthorModel;
 import com.sofija.bookstore.model.BookModel;
 import com.sofija.bookstore.model.GenreModel;
@@ -24,6 +25,13 @@ public class BookFacade {
                 .stream()
                 .map(this::createBookData)
                 .collect(Collectors.toList());
+    }
+
+    public void delete(int id) throws BookException {
+        if (bookService.getById(id) == null) {
+            throw new BookException("Not found");
+        }
+        bookService.delete(id);
     }
 
     public BookData createBookData(BookModel bookModel) {
