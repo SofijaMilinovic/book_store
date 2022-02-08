@@ -1,7 +1,7 @@
 package com.sofija.bookstore.controller;
 
-import com.sofija.bookstore.model.BookModel;
-import com.sofija.bookstore.service.BookService;
+import com.sofija.bookstore.data.BookData;
+import com.sofija.bookstore.facade.BookFacade;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +16,10 @@ import java.util.List;
 public class BookController {
 
     @Resource
-    private BookService bookService;
+    private BookFacade bookFacade;
 
     @GetMapping("")
-    public List<BookModel> getAll() {
-        return bookService.getAll();
+    public List<BookData> getAll() {
+        return bookFacade.getAll();
     }
 }
