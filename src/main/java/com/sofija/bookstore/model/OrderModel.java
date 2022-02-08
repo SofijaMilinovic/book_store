@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class OrderModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,15 +16,15 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private UserModel userModel;
 
     @ManyToOne
     @JoinColumn(name = "status_id", referencedColumnName = "id")
-    private OrderStatus status;
+    private OrderStatusModel orderStatusModel;
 
     @JsonManagedReference
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="order")
-    private List<OrderEntry> orderEntries;
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="orderModel")
+    private List<OrderEntryModel> orderEntryModels;
 
     @Column(name = "address")
     private String address;
@@ -35,7 +35,7 @@ public class Order {
     @Column(name = "country")
     private String country;
 
-    public Order() {
+    public OrderModel() {
     }
 
     public int getId() {
@@ -46,28 +46,28 @@ public class Order {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public UserModel getUserModel() {
+        return userModel;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserModel(UserModel userModel) {
+        this.userModel = userModel;
     }
 
-    public OrderStatus getStatus() {
-        return status;
+    public OrderStatusModel getOrderStatusModel() {
+        return orderStatusModel;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
+    public void setOrderStatusModel(OrderStatusModel orderStatusModel) {
+        this.orderStatusModel = orderStatusModel;
     }
 
-    public List<OrderEntry> getOrderEntries() {
-        return orderEntries;
+    public List<OrderEntryModel> getOrderEntryModels() {
+        return orderEntryModels;
     }
 
-    public void setOrderEntries(List<OrderEntry> orderEntries) {
-        this.orderEntries = orderEntries;
+    public void setOrderEntryModels(List<OrderEntryModel> orderEntryModels) {
+        this.orderEntryModels = orderEntryModels;
     }
 
     public String getAddress() {
@@ -98,8 +98,8 @@ public class Order {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return id == order.id;
+        OrderModel orderModel = (OrderModel) o;
+        return id == orderModel.id;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.sofija.bookstore.service;
 
-import com.sofija.bookstore.model.Genre;
+import com.sofija.bookstore.model.GenreModel;
 import com.sofija.bookstore.repository.GenreRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ public class GenreService {
     @Resource
     private GenreRepository genreRepository;
 
-    public List<Genre> getAll() {
+    public List<GenreModel> getAll() {
         return genreRepository.findAll();
     }
 }

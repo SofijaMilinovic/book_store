@@ -1,7 +1,7 @@
 package com.sofija.bookstore.controller;
 
 import com.sofija.bookstore.exception.UserException;
-import com.sofija.bookstore.model.User;
+import com.sofija.bookstore.model.UserModel;
 import com.sofija.bookstore.service.UserService;
 import com.sofija.bookstore.transfer.Response;
 import com.sofija.bookstore.transfer.ResponseUtil;
@@ -19,20 +19,20 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/register")
-    public Response register(@RequestBody User user) {
+    public Response register(@RequestBody UserModel userModel) {
         try {
-            User registeredUser = userService.register(user);
-            return ResponseUtil.createResponse(registeredUser, HttpStatus.ACCEPTED.value(), "Registration successful");
+            UserModel registeredUserModel = userService.register(userModel);
+            return ResponseUtil.createResponse(registeredUserModel, HttpStatus.ACCEPTED.value(), "Registration successful");
         } catch (UserException ex) {
             return ResponseUtil.createResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
         }
     }
 
     @PostMapping("/login")
-    public Response login(@RequestBody User user) {
+    public Response login(@RequestBody UserModel userModel) {
         try {
-            User loggedInUser = userService.login(user);
-            return ResponseUtil.createResponse(loggedInUser, HttpStatus.OK.value(), "Login successful");
+            UserModel loggedInUserModel = userService.login(userModel);
+            return ResponseUtil.createResponse(loggedInUserModel, HttpStatus.OK.value(), "Login successful");
         } catch (UserException ex) {
             return ResponseUtil.createResponse(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
         }

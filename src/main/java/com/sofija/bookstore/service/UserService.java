@@ -1,10 +1,10 @@
 package com.sofija.bookstore.service;
 
 import com.sofija.bookstore.exception.UserException;
-import com.sofija.bookstore.model.Role;
-import com.sofija.bookstore.model.User;
-import com.sofija.bookstore.model.UserRole;
-import com.sofija.bookstore.model.UserRoleId;
+import com.sofija.bookstore.model.RoleModel;
+import com.sofija.bookstore.model.UserModel;
+import com.sofija.bookstore.model.UserRoleModel;
+import com.sofija.bookstore.model.UserRoleModelId;
 import com.sofija.bookstore.repository.RoleRepository;
 import com.sofija.bookstore.repository.UserRepository;
 import com.sofija.bookstore.repository.UserRoleRepository;
@@ -26,39 +26,39 @@ public class UserService {
     @Resource
     private UserRoleRepository userRoleRepository;
 
-    public List<User> getAll() {
+    public List<UserModel> getAll() {
         return userRepository.findAll();
     }
 
-    public User getById(Integer userId) {
+    public UserModel getById(Integer userId) {
         return userRepository.findById(userId)
                 .orElse(null);
     }
 
-    public User register(User user) throws UserException {
-        if (!userRepository.findByEmail(user.getEmail()).isEmpty()) {
+    public UserModel register(UserModel userModel) throws UserException {
+        if (!userRepository.findByEmail(userModel.getEmail()).isEmpty()) {
             throw new UserException("User already exists with the given email");
         }
 
-        User registeredUser = userRepository.save(user);
-        Role customerRole = roleRepository.findByName("ROLE_CUSTOMER");
-        addCustomerRoleToUser(customerRole, registeredUser);
-        registeredUser.setRoles(Collections.singletonList(customerRole));
-        return registeredUser;
+        UserModel registeredUserModel = userRepository.save(userModel);
+        RoleModel customerRoleModel = roleRepository.findByName("ROLE_CUSTOMER");
+        addCustomerRoleToUser(customerRoleModel, registeredUserModel);
+        registeredUserModel.setRoleModels(Collections.singletonList(customerRoleModel));
+        return registeredUserModel;
     }
 
-    public User login(User user) throws UserException {
-        List<User> users = userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
-        if (users.isEmpty()) {
+    public UserModel login(UserModel userModel) throws UserException {
+        List<UserModel> userModels = userRepository.findByEmailAndPassword(userModel.getEmail(), userModel.getPassword());
+        if (userModels.isEmpty()) {
             throw new UserException("Invalid credentials");
         }
-        return users.get(0);
+        return userModels.get(0);
     }
 
-    private void addCustomerRoleToUser(Role customerRole, User registeredUser) {
-        UserRoleId userRoleId = new UserRoleId(registeredUser.getId(), customerRole.getId());
-        UserRole userRole = new UserRole();
-        userRole.setUserRoleId(userRoleId);
-        userRoleRepository.save(userRole);
+    private void addCustomerRoleToUser(RoleModel customerRoleModel, UserModel registeredUserModel) {
+        UserRoleModelId userRoleModelId = new UserRoleModelId(registeredUserModel.getId(), customerRoleModel.getId());
+        UserRoleModel userRoleModel = new UserRoleModel();
+        userRoleModel.setUserRoleModelId(userRoleModelId);
+        userRoleRepository.save(userRoleModel);
     }
 }

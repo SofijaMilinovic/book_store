@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "books")
-public class Book {
+public class BookModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,11 +13,11 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "genre_id", referencedColumnName = "id")
-    private Genre genre;
+    private GenreModel genreModel;
 
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
-    private Author author;
+    private AuthorModel authorModel;
 
     @Column(name = "image_path")
     private String imagePath;
@@ -28,7 +28,7 @@ public class Book {
     @Column(name = "price")
     private double price;
 
-    public Book() {
+    public BookModel() {
     }
 
     public int getId() {
@@ -39,20 +39,20 @@ public class Book {
         this.id = id;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public GenreModel getGenreModel() {
+        return genreModel;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setGenreModel(GenreModel genreModel) {
+        this.genreModel = genreModel;
     }
 
-    public Author getAuthor() {
-        return author;
+    public AuthorModel getAuthorModel() {
+        return authorModel;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setAuthorModel(AuthorModel authorModel) {
+        this.authorModel = authorModel;
     }
 
     public String getImagePath() {
@@ -83,8 +83,8 @@ public class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return id == book.id;
+        BookModel bookModel = (BookModel) o;
+        return id == bookModel.id;
     }
 
     @Override

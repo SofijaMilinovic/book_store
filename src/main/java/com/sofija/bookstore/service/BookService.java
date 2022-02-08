@@ -1,6 +1,6 @@
 package com.sofija.bookstore.service;
 
-import com.sofija.bookstore.model.Book;
+import com.sofija.bookstore.model.BookModel;
 import com.sofija.bookstore.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ public class BookService {
     @Resource
     private BookRepository bookRepository;
 
-    public List<Book> getAll() {
+    public List<BookModel> getAll() {
         return bookRepository.findAll();
     }
 }

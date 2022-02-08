@@ -1,6 +1,6 @@
 package com.sofija.bookstore.controller;
 
-import com.sofija.bookstore.model.Book;
+import com.sofija.bookstore.model.BookModel;
 import com.sofija.bookstore.service.BookService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("")
-    public List<Book> getAll() {
+    public List<BookModel> getAll() {
         return bookService.getAll();
     }
 }

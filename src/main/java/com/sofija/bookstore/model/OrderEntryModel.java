@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "order_entries")
-public class OrderEntry {
+public class OrderEntryModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,16 +15,16 @@ public class OrderEntry {
 
     @JsonBackReference
     @ManyToOne(fetch=FetchType.LAZY)
-    private Order order;
+    private OrderModel orderModel;
 
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id")
-    private Book book;
+    private BookModel bookModel;
 
     @Column(name = "quantity")
     private int quantity;
 
-    public OrderEntry() {
+    public OrderEntryModel() {
     }
 
     public int getId() {
@@ -35,20 +35,20 @@ public class OrderEntry {
         this.id = id;
     }
 
-    public Order getOrder() {
-        return order;
+    public OrderModel getOrderModel() {
+        return orderModel;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderModel(OrderModel orderModel) {
+        this.orderModel = orderModel;
     }
 
-    public Book getBook() {
-        return book;
+    public BookModel getBookModel() {
+        return bookModel;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBookModel(BookModel bookModel) {
+        this.bookModel = bookModel;
     }
 
     public int getQuantity() {
@@ -63,12 +63,12 @@ public class OrderEntry {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderEntry that = (OrderEntry) o;
-        return id == that.id && order.equals(that.order);
+        OrderEntryModel that = (OrderEntryModel) o;
+        return id == that.id && orderModel.equals(that.orderModel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, order);
+        return Objects.hash(id, orderModel);
     }
 }

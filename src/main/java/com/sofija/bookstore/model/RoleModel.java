@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class RoleModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +14,7 @@ public class Role {
     @Column(name = "name")
     private String name;
 
-    public Role() {
+    public RoleModel() {
     }
 
     public int getId() {
@@ -37,8 +37,8 @@ public class Role {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return id == role.id;
+        RoleModel roleModel = (RoleModel) o;
+        return id == roleModel.id;
     }
 
     @Override

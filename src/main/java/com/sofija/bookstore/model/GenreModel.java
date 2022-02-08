@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "order_statuses")
-public class OrderStatus {
+@Table(name = "genres")
+public class GenreModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +14,7 @@ public class OrderStatus {
     @Column(name = "name")
     private String name;
 
-    public OrderStatus() {
+    public GenreModel() {
     }
 
     public int getId() {
@@ -37,8 +37,8 @@ public class OrderStatus {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderStatus that = (OrderStatus) o;
-        return id == that.id;
+        GenreModel genreModel = (GenreModel) o;
+        return id == genreModel.id;
     }
 
     @Override

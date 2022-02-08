@@ -1,6 +1,6 @@
 package com.sofija.bookstore.controller;
 
-import com.sofija.bookstore.model.Order;
+import com.sofija.bookstore.model.OrderModel;
 import com.sofija.bookstore.service.OrderService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("")
-    public List<Order> getAll() {
+    public List<OrderModel> getAll() {
         return orderService.getAll();
     }
 }

@@ -5,15 +5,15 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class UserRoleId implements Serializable {
+public class UserRoleModelId implements Serializable {
 
     private int userId;
     private int roleId;
 
-    public UserRoleId() {
+    public UserRoleModelId() {
     }
 
-    public UserRoleId(int userId, int roleId) {
+    public UserRoleModelId(int userId, int roleId) {
         this.userId = userId;
         this.roleId = roleId;
     }
@@ -38,7 +38,7 @@ public class UserRoleId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserRoleId that = (UserRoleId) o;
+        UserRoleModelId that = (UserRoleModelId) o;
         return userId == that.userId && roleId == that.roleId;
     }
 
