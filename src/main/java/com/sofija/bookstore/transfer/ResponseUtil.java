@@ -17,6 +17,10 @@ public final class ResponseUtil {
         return createResponse(null, statusCode, message);
     }
 
+    public static Response createResponse(int statusCode) {
+        return createResponse(null, statusCode, null);
+    }
+
     private static Response createResponse() {
         return new Response();
     }

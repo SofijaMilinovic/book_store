@@ -35,7 +35,7 @@ public class UserService {
     }
 
     public UserModel register(UserModel userModel) throws UserException {
-        if (!userRepository.findByEmail(userModel.getEmail()).isEmpty()) {
+        if (userRepository.findByEmail(userModel.getEmail()) != null) {
             throw new UserException("User already exists with the given email");
         }
 
@@ -45,11 +45,11 @@ public class UserService {
     }
 
     public UserModel login(String email, String password) throws UserException {
-        List<UserModel> userModels = userRepository.findByEmailAndPassword(email, password);
-        if (userModels.isEmpty()) {
+        UserModel userModel = userRepository.findByEmailAndPassword(email, password);
+        if (userModel == null) {
             throw new UserException("Invalid credentials");
         }
-        return userModels.get(0);
+        return userModel;
     }
 
     private void addCustomerRoleToUser(UserModel registeredUserModel) {

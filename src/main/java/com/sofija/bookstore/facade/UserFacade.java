@@ -39,6 +39,16 @@ public class UserFacade {
         return createUserData(loggedInUserModel);
     }
 
+    public boolean isAdmin(UserData userData) {
+        UserModel userModel = userService.getById(userData.getId());
+        if (userModel == null) {
+            return false;
+        }
+        return userModel.getRoleModels()
+                .stream()
+                .anyMatch(roleModel -> roleModel.getName().equals("ROLE_ADMIN"));
+    }
+
     public UserData createUserData(UserModel userModel) {
         UserData userData = new UserData();
         userData.setId(userModel.getId());

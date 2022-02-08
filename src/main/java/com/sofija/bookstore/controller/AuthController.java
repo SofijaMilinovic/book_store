@@ -37,4 +37,11 @@ public class AuthController {
             return ResponseUtil.createResponse(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
         }
     }
+
+    @PostMapping("/admin")
+    public Response admin(@RequestBody UserData userData) {
+        boolean isAdmin = userFacade.isAdmin(userData);
+        int statusCode = isAdmin ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value();
+        return ResponseUtil.createResponse(statusCode);
+    }
 }
