@@ -22,7 +22,6 @@ public class OrderModel {
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     private OrderStatusModel orderStatusModel;
 
-    @JsonManagedReference
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="orderModel")
     private List<OrderEntryModel> orderEntryModels;
 

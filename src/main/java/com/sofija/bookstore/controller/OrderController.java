@@ -1,7 +1,7 @@
 package com.sofija.bookstore.controller;
 
-import com.sofija.bookstore.model.OrderModel;
-import com.sofija.bookstore.service.OrderService;
+import com.sofija.bookstore.data.OrderData;
+import com.sofija.bookstore.facade.OrderFacade;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,10 +14,10 @@ import java.util.List;
 public class OrderController {
 
     @Resource
-    private OrderService orderService;
+    private OrderFacade orderFacade;
 
     @GetMapping("")
-    public List<OrderModel> getAll() {
-        return orderService.getAll();
+    public List<OrderData> getAll() {
+        return orderFacade.getAll();
     }
 }

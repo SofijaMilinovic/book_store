@@ -38,7 +38,7 @@ public class UserFacade {
         return createUserData(loggedInUserModel);
     }
 
-    private UserData createUserData(UserModel userModel) {
+    public UserData createUserData(UserModel userModel) {
         UserData userData = new UserData();
         userData.setId(userModel.getId());
         return userData;

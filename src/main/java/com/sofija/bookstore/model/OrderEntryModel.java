@@ -13,7 +13,6 @@ public class OrderEntryModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @JsonBackReference
     @ManyToOne(fetch=FetchType.LAZY)
     private OrderModel orderModel;
 

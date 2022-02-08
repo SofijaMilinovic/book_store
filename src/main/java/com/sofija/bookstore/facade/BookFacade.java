@@ -26,7 +26,7 @@ public class BookFacade {
                 .collect(Collectors.toList());
     }
 
-    private BookData createBookData(BookModel bookModel) {
+    public BookData createBookData(BookModel bookModel) {
         BookData bookData = new BookData();
         bookData.setId(bookModel.getId());
         bookData.setGenreData(createGenreData(bookModel.getGenreModel()));
