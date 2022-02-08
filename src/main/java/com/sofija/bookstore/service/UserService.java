@@ -44,8 +44,8 @@ public class UserService {
         return registeredUserModel;
     }
 
-    public UserModel login(UserModel userModel) throws UserException {
-        List<UserModel> userModels = userRepository.findByEmailAndPassword(userModel.getEmail(), userModel.getPassword());
+    public UserModel login(String email, String password) throws UserException {
+        List<UserModel> userModels = userRepository.findByEmailAndPassword(email, password);
         if (userModels.isEmpty()) {
             throw new UserException("Invalid credentials");
         }

@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/books")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 public class BookController {
 
     @Resource

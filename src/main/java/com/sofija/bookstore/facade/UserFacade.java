@@ -28,19 +28,33 @@ public class UserFacade {
         return createUserData(userModel);
     }
 
-    public UserData register(UserModel userModel) throws UserException {
+    public UserData register(UserData userData) throws UserException {
+        UserModel userModel = createUserModel(userData);
         UserModel registeredUserModel = userService.register(userModel);
         return createUserData(registeredUserModel);
     }
 
-    public UserData login(UserModel userModel) throws UserException {
-        UserModel loggedInUserModel = userService.login(userModel);
+    public UserData login(UserData userData) throws UserException {
+        UserModel loggedInUserModel = userService.login(userData.getEmail(), userData.getPassword());
         return createUserData(loggedInUserModel);
     }
 
     public UserData createUserData(UserModel userModel) {
         UserData userData = new UserData();
         userData.setId(userModel.getId());
+        userData.setEmail(userModel.getEmail());
+        userData.setFirstName(userModel.getFirstName());
+        userData.setLastName(userModel.getLastName());
         return userData;
+    }
+
+    private UserModel createUserModel(UserData userData) {
+        UserModel userModel = new UserModel();
+        userModel.setId(userData.getId());
+        userModel.setFirstName(userData.getFirstName());
+        userModel.setLastName(userData.getLastName());
+        userModel.setEmail(userData.getEmail());
+        userModel.setPassword(userData.getPassword());
+        return userModel;
     }
 }

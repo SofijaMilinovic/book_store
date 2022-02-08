@@ -3,7 +3,6 @@ package com.sofija.bookstore.controller;
 import com.sofija.bookstore.data.UserData;
 import com.sofija.bookstore.exception.UserException;
 import com.sofija.bookstore.facade.UserFacade;
-import com.sofija.bookstore.model.UserModel;
 import com.sofija.bookstore.transfer.Response;
 import com.sofija.bookstore.transfer.ResponseUtil;
 import org.springframework.http.HttpStatus;
@@ -13,16 +12,16 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 public class AuthController {
 
     @Resource
     private UserFacade userFacade;
 
     @PostMapping("/register")
-    public Response register(@RequestBody UserModel userModel) {
+    public Response register(@RequestBody UserData userData) {
         try {
-            UserData registeredUserData = userFacade.register(userModel);
+            UserData registeredUserData = userFacade.register(userData);
             return ResponseUtil.createResponse(registeredUserData, HttpStatus.ACCEPTED.value(), "Registration successful");
         } catch (UserException ex) {
             return ResponseUtil.createResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
@@ -30,9 +29,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Response login(@RequestBody UserModel userModel) {
+    public Response login(@RequestBody UserData userData) {
         try {
-            UserData loggedInUserData = userFacade.login(userModel);
+            UserData loggedInUserData = userFacade.login(userData);
             return ResponseUtil.createResponse(loggedInUserData, HttpStatus.OK.value(), "Login successful");
         } catch (UserException ex) {
             return ResponseUtil.createResponse(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
