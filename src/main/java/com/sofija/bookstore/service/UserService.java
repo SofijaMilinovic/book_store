@@ -1,5 +1,6 @@
 package com.sofija.bookstore.service;
 
+import com.sofija.bookstore.exception.UserException;
 import com.sofija.bookstore.model.Role;
 import com.sofija.bookstore.model.User;
 import com.sofija.bookstore.model.UserRole;
@@ -34,9 +35,9 @@ public class UserService {
                 .orElse(null);
     }
 
-    public User register(User user) throws Exception {
+    public User register(User user) throws UserException {
         if (!userRepository.findByEmail(user.getEmail()).isEmpty()) {
-            throw new Exception("User already exists with the given email");
+            throw new UserException("User already exists with the given email");
         }
 
         User registeredUser = userRepository.save(user);
@@ -44,6 +45,14 @@ public class UserService {
         addCustomerRoleToUser(customerRole, registeredUser);
         registeredUser.setRoles(Collections.singletonList(customerRole));
         return registeredUser;
+    }
+
+    public User login(User user) throws UserException {
+        List<User> users = userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+        if (users.isEmpty()) {
+            throw new UserException("Invalid credentials");
+        }
+        return users.get(0);
     }
 
     private void addCustomerRoleToUser(Role customerRole, User registeredUser) {
