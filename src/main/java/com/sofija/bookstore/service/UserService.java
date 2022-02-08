@@ -11,7 +11,6 @@ import com.sofija.bookstore.repository.UserRoleRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -30,7 +29,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public UserModel getById(Integer userId) {
+    public UserModel getById(int userId) {
         return userRepository.findById(userId)
                 .orElse(null);
     }
@@ -41,9 +40,7 @@ public class UserService {
         }
 
         UserModel registeredUserModel = userRepository.save(userModel);
-        RoleModel customerRoleModel = roleRepository.findByName("ROLE_CUSTOMER");
-        addCustomerRoleToUser(customerRoleModel, registeredUserModel);
-        registeredUserModel.setRoleModels(Collections.singletonList(customerRoleModel));
+        addCustomerRoleToUser(registeredUserModel);
         return registeredUserModel;
     }
 
@@ -55,7 +52,8 @@ public class UserService {
         return userModels.get(0);
     }
 
-    private void addCustomerRoleToUser(RoleModel customerRoleModel, UserModel registeredUserModel) {
+    private void addCustomerRoleToUser(UserModel registeredUserModel) {
+        RoleModel customerRoleModel = roleRepository.findByName("ROLE_CUSTOMER");
         UserRoleModelId userRoleModelId = new UserRoleModelId(registeredUserModel.getId(), customerRoleModel.getId());
         UserRoleModel userRoleModel = new UserRoleModel();
         userRoleModel.setUserRoleModelId(userRoleModelId);

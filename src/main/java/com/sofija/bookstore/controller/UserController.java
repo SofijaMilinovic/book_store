@@ -1,7 +1,7 @@
 package com.sofija.bookstore.controller;
 
-import com.sofija.bookstore.model.UserModel;
-import com.sofija.bookstore.service.UserService;
+import com.sofija.bookstore.data.UserData;
+import com.sofija.bookstore.facade.UserFacade;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -13,15 +13,15 @@ import java.util.List;
 public class UserController {
 
     @Resource
-    private UserService userService;
+    private UserFacade userFacade;
 
     @GetMapping("")
-    public List<UserModel> getAll() {
-        return userService.getAll();
+    public List<UserData> getAll() {
+        return userFacade.getAll();
     }
 
     @GetMapping("/{userId}")
-    public UserModel getById(@PathVariable Integer userId) {
-        return userService.getById(userId);
+    public UserData getById(@PathVariable Integer userId) {
+        return userFacade.getById(userId);
     }
 }
