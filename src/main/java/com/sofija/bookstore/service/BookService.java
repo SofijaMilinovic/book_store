@@ -1,7 +1,11 @@
 package com.sofija.bookstore.service;
 
+import com.sofija.bookstore.model.AuthorModel;
 import com.sofija.bookstore.model.BookModel;
+import com.sofija.bookstore.model.GenreModel;
+import com.sofija.bookstore.repository.AuthorRepository;
 import com.sofija.bookstore.repository.BookRepository;
+import com.sofija.bookstore.repository.GenreRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,6 +16,12 @@ public class BookService {
 
     @Resource
     private BookRepository bookRepository;
+
+    @Resource
+    private GenreRepository genreRepository;
+
+    @Resource
+    private AuthorRepository authorRepository;
 
     public List<BookModel> getAll() {
         return bookRepository.findAll();
@@ -24,5 +34,13 @@ public class BookService {
 
     public void delete(int id) {
         bookRepository.deleteById(id);
+    }
+
+    public BookModel createNewBook(BookModel bookModel) {
+        GenreModel genreModel = genreRepository.getById(bookModel.getGenreModel().getId());
+        AuthorModel authorModel = authorRepository.getById(bookModel.getAuthorModel().getId());
+        bookModel.setGenreModel(genreModel);
+        bookModel.setAuthorModel(authorModel);
+        return bookRepository.save(bookModel);
     }
 }

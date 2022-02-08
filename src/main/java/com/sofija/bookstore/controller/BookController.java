@@ -33,4 +33,10 @@ public class BookController {
             return ResponseUtil.createResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
         }
     }
+
+    @PostMapping("")
+    public Response create(@RequestBody BookData bookData) {
+        BookData createdBookData = bookFacade.createNewBook(bookData);
+        return ResponseUtil.createResponse(createdBookData, HttpStatus.CREATED.value(), "Book successfully created");
+    }
 }
