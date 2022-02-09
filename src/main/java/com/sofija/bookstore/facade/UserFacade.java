@@ -43,7 +43,7 @@ public class UserFacade {
         return userService.isAdmin(userId);
     }
 
-    public boolean isGoldenCustomer(int userId) {
+    public boolean isGoldenCustomer(Integer userId) {
         return userService.isGoldenCustomer(userId);
     }
 
@@ -57,6 +57,10 @@ public class UserFacade {
     }
 
     public UserModel createUserModel(UserData userData) {
+        if (userData == null) {
+            return null;
+        }
+
         UserModel userModel = new UserModel();
         userModel.setId(userData.getId());
         userModel.setFirstName(userData.getFirstName());

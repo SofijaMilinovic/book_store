@@ -58,8 +58,12 @@ public class UserService {
     }
 
     private boolean userContainsRole(int userId, String roleName) {
-        return getById(userId)
-                .getRoleModels()
+        UserModel userModel = getById(userId);
+        if (userModel == null) {
+            return false;
+        }
+
+        return userModel.getRoleModels()
                 .stream()
                 .anyMatch(roleModel -> roleModel.getName().equals(roleName));
     }
@@ -70,5 +74,9 @@ public class UserService {
         UserRoleModel userRoleModel = new UserRoleModel();
         userRoleModel.setUserRoleModelId(userRoleModelId);
         userRoleRepository.save(userRoleModel);
+    }
+
+    public UserModel getAnonymousUser() {
+        return userRepository.findByEmail("anonymous");
     }
 }

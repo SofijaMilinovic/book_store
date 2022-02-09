@@ -46,6 +46,9 @@ public class OrderService {
     }
 
     private OrderModel createOrder(OrderModel orderModel) {
+        if (orderModel.getUserModel() == null) {
+            orderModel.setUserModel(userService.getAnonymousUser());
+        }
         orderModel.setOrderStatusModel(getPendingOrderStatusModel());
         return orderRepository.save(orderModel);
     }
