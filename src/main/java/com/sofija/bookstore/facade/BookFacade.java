@@ -28,9 +28,6 @@ public class BookFacade {
     }
 
     public void delete(int id) throws BookException {
-        if (bookService.getById(id) == null) {
-            throw new BookException("Not found");
-        }
         bookService.delete(id);
     }
 

@@ -1,5 +1,6 @@
 package com.sofija.bookstore.service;
 
+import com.sofija.bookstore.exception.BookException;
 import com.sofija.bookstore.model.AuthorModel;
 import com.sofija.bookstore.model.BookModel;
 import com.sofija.bookstore.model.GenreModel;
@@ -32,7 +33,10 @@ public class BookService {
                 .orElse(null);
     }
 
-    public void delete(int id) {
+    public void delete(int id) throws BookException {
+        if (getById(id) == null) {
+            throw new BookException("Not found");
+        }
         bookRepository.deleteById(id);
     }
 
