@@ -18,6 +18,6 @@ public interface OrderRepository extends JpaRepository<OrderModel, Integer> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE OrderModel SET order_status_id = :order_status_id WHERE id = :id")
-    void completeOrder(@Param("id") int id, @Param("order_status_id") int order_status_id);
+    @Query("UPDATE OrderModel SET status_id = :status_id WHERE id = :id")
+    void completeOrder(@Param("id") int id, @Param("status_id") int status_id);
 }

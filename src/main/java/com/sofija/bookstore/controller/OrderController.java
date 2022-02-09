@@ -34,9 +34,9 @@ public class OrderController {
         return ResponseUtil.createResponse(createdOrderData, HttpStatus.CREATED.value(), "Order placed successfully");
     }
 
-    @PutMapping("/{id}")
-    public Response completeOrder(@PathVariable int id) {
-        orderFacade.completeOrder(id);
+    @PutMapping("")
+    public Response completeOrder(@RequestBody OrderData orderData) {
+        orderFacade.completeOrder(orderData.getId());
         return ResponseUtil.createResponse(HttpStatus.OK.value(), "Order successfully completed");
     }
 }
