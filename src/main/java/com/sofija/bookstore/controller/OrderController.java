@@ -2,10 +2,10 @@ package com.sofija.bookstore.controller;
 
 import com.sofija.bookstore.data.OrderData;
 import com.sofija.bookstore.facade.OrderFacade;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.sofija.bookstore.transfer.Response;
+import com.sofija.bookstore.transfer.ResponseUtil;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,5 +21,11 @@ public class OrderController {
     @GetMapping("")
     public List<OrderData> getAll() {
         return orderFacade.getAll();
+    }
+
+    @PostMapping("")
+    public Response create(@RequestBody OrderData orderData) {
+        OrderData createdOrderData = orderFacade.create(orderData);
+        return ResponseUtil.createResponse(createdOrderData, HttpStatus.CREATED.value(), "Order placed successfully");
     }
 }

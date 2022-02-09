@@ -32,6 +32,13 @@ public class OrderFacade {
                 .collect(Collectors.toList());
     }
 
+    public OrderData create(OrderData orderData) {
+        OrderModel orderModel = createOrderModel(orderData);
+        List<OrderEntryModel> orderEntryModels = createOrderEntryModels(orderData.getOrderEntryDataList());
+        OrderModel createdOrderModel = orderService.create(orderModel, orderEntryModels);
+        return createOrderData(createdOrderModel);
+    }
+
     private OrderData createOrderData(OrderModel orderModel) {
         OrderData orderData = new OrderData();
         orderData.setId(orderModel.getId());
@@ -64,5 +71,27 @@ public class OrderFacade {
         orderEntryData.setQuantity(orderEntryModel.getQuantity());
         orderEntryData.setId(orderEntryModel.getId());
         return orderEntryData;
+    }
+
+    private OrderModel createOrderModel(OrderData orderData) {
+        OrderModel orderModel = new OrderModel();
+        orderModel.setAddress(orderData.getAddress());
+        orderModel.setCountry(orderData.getCountry());
+        orderModel.setCity(orderData.getCity());
+        orderModel.setUserModel(userFacade.createUserModel(orderData.getUserData()));
+        return orderModel;
+    }
+
+    private List<OrderEntryModel> createOrderEntryModels(List<OrderEntryData> orderEntryDataList) {
+        return orderEntryDataList.stream()
+                .map(this::createOrderEntryModel)
+                .collect(Collectors.toList());
+    }
+
+    private OrderEntryModel createOrderEntryModel(OrderEntryData orderEntryData) {
+        OrderEntryModel orderEntryModel = new OrderEntryModel();
+        orderEntryModel.setBookModel(bookFacade.createBookModel(orderEntryData.getBookData()));
+        orderEntryModel.setQuantity(orderEntryData.getQuantity());
+        return orderEntryModel;
     }
 }

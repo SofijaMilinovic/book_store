@@ -56,6 +56,17 @@ public class BookFacade {
         return bookData;
     }
 
+    public BookModel createBookModel(BookData bookData) {
+        BookModel bookModel = new BookModel();
+        bookModel.setId(bookData.getId());
+        bookModel.setAuthorModel(createAuthorModel(bookData.getAuthorData()));
+        bookModel.setGenreModel(createGenreModel(bookData.getGenreData()));
+        bookModel.setPrice(bookData.getPrice());
+        bookModel.setTitle(bookData.getTitle());
+        bookModel.setImagePath(bookData.getImagePath());
+        return bookModel;
+    }
+
     private GenreData createGenreData(GenreModel genreModel) {
         GenreData genreData = new GenreData();
         genreData.setId(genreModel.getId());
@@ -70,17 +81,6 @@ public class BookFacade {
         authorData.setLastName(authorModel.getLastName());
         authorData.setDateOfBirth(authorModel.getDateOfBirth());
         return authorData;
-    }
-
-    private BookModel createBookModel(BookData bookData) {
-        BookModel bookModel = new BookModel();
-        bookModel.setId(bookData.getId());
-        bookModel.setAuthorModel(createAuthorModel(bookData.getAuthorData()));
-        bookModel.setGenreModel(createGenreModel(bookData.getGenreData()));
-        bookModel.setPrice(bookData.getPrice());
-        bookModel.setTitle(bookData.getTitle());
-        bookModel.setImagePath(bookData.getImagePath());
-        return bookModel;
     }
 
     private AuthorModel createAuthorModel(AuthorData authorData) {
