@@ -31,7 +31,7 @@ public class BookFacade {
         bookService.delete(id);
     }
 
-    public BookData createOrUpdate(BookData bookData) {
+    public BookData create(BookData bookData) {
         BookModel bookModel = createBookModel(bookData);
         BookModel createdBookModel = bookService.create(bookModel);
         return createBookData(createdBookModel);

@@ -36,7 +36,7 @@ public class BookController {
 
     @PostMapping("")
     public Response create(@RequestBody BookData bookData) {
-        BookData createdBookData = bookFacade.createOrUpdate(bookData);
+        BookData createdBookData = bookFacade.create(bookData);
         return ResponseUtil.createResponse(createdBookData, HttpStatus.CREATED.value(), "Book successfully created");
     }
 
