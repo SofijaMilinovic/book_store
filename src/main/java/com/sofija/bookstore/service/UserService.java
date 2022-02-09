@@ -40,7 +40,7 @@ public class UserService {
         }
 
         UserModel registeredUserModel = userRepository.save(userModel);
-        addCustomerRoleToUser(registeredUserModel);
+        addRoleToUser("ROLE_CUSTOMER", registeredUserModel.getId());
         return registeredUserModel;
     }
 
@@ -52,9 +52,9 @@ public class UserService {
         return userModel;
     }
 
-    private void addCustomerRoleToUser(UserModel registeredUserModel) {
-        RoleModel customerRoleModel = roleRepository.findByName("ROLE_CUSTOMER");
-        UserRoleModelId userRoleModelId = new UserRoleModelId(registeredUserModel.getId(), customerRoleModel.getId());
+    public void addRoleToUser(String roleName, int userId) {
+        RoleModel roleModel = roleRepository.findByName(roleName);
+        UserRoleModelId userRoleModelId = new UserRoleModelId(userId, roleModel.getId());
         UserRoleModel userRoleModel = new UserRoleModel();
         userRoleModel.setUserRoleModelId(userRoleModelId);
         userRoleRepository.save(userRoleModel);
