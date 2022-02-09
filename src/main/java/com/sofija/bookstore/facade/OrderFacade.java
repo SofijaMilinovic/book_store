@@ -39,6 +39,17 @@ public class OrderFacade {
         return createOrderData(createdOrderModel);
     }
 
+    public List<OrderData> getAllByUserId(int userId) {
+        return orderService.getAllByUserId(userId)
+                .stream()
+                .map(this::createOrderData)
+                .collect(Collectors.toList());
+    }
+
+    public void completeOrder(int id) {
+        orderService.completeOrder(id);
+    }
+
     private OrderData createOrderData(OrderModel orderModel) {
         OrderData orderData = new OrderData();
         orderData.setId(orderModel.getId());

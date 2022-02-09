@@ -45,6 +45,18 @@ public class OrderService {
         return createdOrderModel;
     }
 
+    public List<OrderModel> getAllByUserId(int userId) {
+        if (userService.isAdmin(userId)) {
+            return getAll();
+        }
+        return orderRepository.findAllByUserId(userId);
+    }
+
+    public void completeOrder(int id) {
+        OrderStatusModel completedOrderStatusModel = orderStatusRepository.findByName("COMPLETED");
+        orderRepository.completeOrder(id, completedOrderStatusModel.getId());
+    }
+
     private OrderModel createOrder(OrderModel orderModel) {
         if (orderModel.getUserModel() == null) {
             orderModel.setUserModel(userService.getAnonymousUser());

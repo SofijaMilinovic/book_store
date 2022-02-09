@@ -1,8 +1,6 @@
 package com.sofija.bookstore.repository;
 
-import com.sofija.bookstore.model.AuthorModel;
 import com.sofija.bookstore.model.BookModel;
-import com.sofija.bookstore.model.GenreModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

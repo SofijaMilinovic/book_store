@@ -23,9 +23,20 @@ public class OrderController {
         return orderFacade.getAll();
     }
 
+    @GetMapping("/users/{userId}")
+    public List<OrderData> getAllByUserId(@PathVariable int userId) {
+        return orderFacade.getAllByUserId(userId);
+    }
+
     @PostMapping("")
     public Response create(@RequestBody OrderData orderData) {
         OrderData createdOrderData = orderFacade.create(orderData);
         return ResponseUtil.createResponse(createdOrderData, HttpStatus.CREATED.value(), "Order placed successfully");
+    }
+
+    @PutMapping("/{id}")
+    public Response completeOrder(@PathVariable int id) {
+        orderFacade.completeOrder(id);
+        return ResponseUtil.createResponse(HttpStatus.OK.value(), "Order successfully completed");
     }
 }
