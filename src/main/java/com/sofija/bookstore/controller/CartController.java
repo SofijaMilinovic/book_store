@@ -30,7 +30,7 @@ public class CartController {
 
     private String getMessage(boolean goldenCustomer) {
         if (goldenCustomer) {
-            return String.format("Golden customer - you get %s%% discount", cartFacade.getGoldenCustomerDiscount());
+            return String.format("Golden customer - you get %s%% discount", cartFacade.getGoldenCustomerDiscount() * 100);
         }
         return null;
     }

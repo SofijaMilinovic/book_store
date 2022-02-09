@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -41,7 +40,7 @@ public class OrderService {
     public OrderModel create(OrderModel orderModel, List<OrderEntryModel> orderEntryModels) {
         OrderModel createdOrderModel = createOrder(orderModel);
         saveOrderEntries(createdOrderModel, orderEntryModels);
-        promoteUserToGoldenIfConditionMet(orderModel.getUserModel().getId());
+        promoteUserToGoldenIfConditionMet(orderModel);
         return createdOrderModel;
     }
 
@@ -74,36 +73,35 @@ public class OrderService {
         createdOrderModel.setOrderEntryModels(orderEntryModels);
     }
 
-    private void promoteUserToGoldenIfConditionMet(int userId) {
+    private void promoteUserToGoldenIfConditionMet(OrderModel orderModel) {
+        int userId = orderModel.getUserModel().getId();
         if (userService.isGoldenCustomer(userId)) {
             return;
         }
 
-        List<OrderModel> completedOrders = getAllCompletedOrdersByUserId(userId);
-        double totalSum = getTotalSum(completedOrders);
+        if (getTotalSumForOrder(orderModel) >= goldenCustomerThreshold) {
+            userService.addRoleToUser("ROLE_GOLDEN_CUSTOMER", userId);
+            return;
+        }
+
+        List<OrderModel> orderModels = orderRepository.findAllByUserId(userId);
+        double totalSum = getTotalSum(orderModels);
         if (totalSum >= goldenCustomerThreshold) {
             userService.addRoleToUser("ROLE_GOLDEN_CUSTOMER", userId);
         }
     }
 
-    private List<OrderModel> getAllCompletedOrdersByUserId(int userId) {
-        return orderRepository.findAllByUserId(userId)
-                .stream()
-                .filter(orderModel -> orderModel.getOrderStatusModel().getName().equals("COMPLETED"))
-                .collect(Collectors.toList());
-    }
-
     private double getTotalSum(List<OrderModel> completedOrders) {
-        return getOrderEntries(completedOrders)
-                .stream()
-                .mapToDouble(orderEntryModel -> orderEntryModel.getBookModel().getPrice() * orderEntryModel.getQuantity())
+        return completedOrders.stream()
+                .mapToDouble(this::getTotalSumForOrder)
                 .sum();
     }
 
-    private List<OrderEntryModel> getOrderEntries(List<OrderModel> completedOrders) {
-        return completedOrders.stream()
-                .flatMap(orderModel -> orderModel.getOrderEntryModels().stream())
-                .collect(Collectors.toList());
+    private double getTotalSumForOrder(OrderModel orderModel) {
+        return orderModel.getOrderEntryModels()
+                .stream()
+                .mapToDouble(OrderEntryModel::getPrice)
+                .sum();
     }
 
     private double getOrderEntryPrice(int userId, OrderEntryModel orderEntryModel) {
