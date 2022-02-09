@@ -1,5 +1,6 @@
 package com.sofija.bookstore.service;
 
+import com.sofija.bookstore.constants.Constants;
 import com.sofija.bookstore.model.*;
 import com.sofija.bookstore.repository.OrderEntryRepository;
 import com.sofija.bookstore.repository.OrderRepository;
@@ -52,7 +53,7 @@ public class OrderService {
     }
 
     public void completeOrder(int id) {
-        OrderStatusModel completedOrderStatusModel = orderStatusRepository.findByName("COMPLETED");
+        OrderStatusModel completedOrderStatusModel = orderStatusRepository.findByName(Constants.OrderStatus.COMPLETED);
         orderRepository.completeOrder(id, completedOrderStatusModel.getId());
     }
 
@@ -80,14 +81,14 @@ public class OrderService {
         }
 
         if (getTotalSumForOrder(orderModel) >= goldenCustomerThreshold) {
-            userService.addRoleToUser("ROLE_GOLDEN_CUSTOMER", userId);
+            userService.addRoleToUser(Constants.Role.GOLDEN_CUSTOMER, userId);
             return;
         }
 
         List<OrderModel> orderModels = orderRepository.findAllByUserId(userId);
         double totalSum = getTotalSum(orderModels);
         if (totalSum >= goldenCustomerThreshold) {
-            userService.addRoleToUser("ROLE_GOLDEN_CUSTOMER", userId);
+            userService.addRoleToUser(Constants.Role.GOLDEN_CUSTOMER, userId);
         }
     }
 
@@ -113,6 +114,6 @@ public class OrderService {
     }
 
     private OrderStatusModel getPendingOrderStatusModel() {
-        return orderStatusRepository.findByName("PENDING");
+        return orderStatusRepository.findByName(Constants.OrderStatus.PENDING);
     }
 }

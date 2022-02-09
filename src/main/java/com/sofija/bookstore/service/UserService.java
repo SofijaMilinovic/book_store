@@ -1,5 +1,6 @@
 package com.sofija.bookstore.service;
 
+import com.sofija.bookstore.constants.Constants;
 import com.sofija.bookstore.exception.UserException;
 import com.sofija.bookstore.model.*;
 import com.sofija.bookstore.repository.RoleRepository;
@@ -37,7 +38,7 @@ public class UserService {
         }
 
         UserModel registeredUserModel = userRepository.save(userModel);
-        addRoleToUser("ROLE_CUSTOMER", registeredUserModel.getId());
+        addRoleToUser(Constants.Role.CUSTOMER, registeredUserModel.getId());
         return registeredUserModel;
     }
 
@@ -50,11 +51,11 @@ public class UserService {
     }
 
     public boolean isAdmin(int userId) {
-        return userContainsRole(userId, "ROLE_ADMIN");
+        return userContainsRole(userId, Constants.Role.ADMIN);
     }
 
     public boolean isGoldenCustomer(int userId) {
-        return userContainsRole(userId, "ROLE_GOLDEN_CUSTOMER");
+        return userContainsRole(userId, Constants.Role.GOLDEN_CUSTOMER);
     }
 
     private boolean userContainsRole(int userId, String roleName) {
