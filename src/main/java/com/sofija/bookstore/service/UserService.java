@@ -1,10 +1,7 @@
 package com.sofija.bookstore.service;
 
 import com.sofija.bookstore.exception.UserException;
-import com.sofija.bookstore.model.RoleModel;
-import com.sofija.bookstore.model.UserModel;
-import com.sofija.bookstore.model.UserRoleModel;
-import com.sofija.bookstore.model.UserRoleModelId;
+import com.sofija.bookstore.model.*;
 import com.sofija.bookstore.repository.RoleRepository;
 import com.sofija.bookstore.repository.UserRepository;
 import com.sofija.bookstore.repository.UserRoleRepository;
@@ -50,6 +47,21 @@ public class UserService {
             throw new UserException("Invalid credentials");
         }
         return userModel;
+    }
+
+    public boolean isAdmin(int userId) {
+        return userContainsRole(userId, "ROLE_ADMIN");
+    }
+
+    public boolean isGoldenCustomer(int userId) {
+        return userContainsRole(userId, "ROLE_GOLDEN_CUSTOMER");
+    }
+
+    private boolean userContainsRole(int userId, String roleName) {
+        return getById(userId)
+                .getRoleModels()
+                .stream()
+                .anyMatch(roleModel -> roleModel.getName().equals(roleName));
     }
 
     public void addRoleToUser(String roleName, int userId) {

@@ -39,14 +39,12 @@ public class UserFacade {
         return createUserData(loggedInUserModel);
     }
 
-    public boolean isAdmin(UserData userData) {
-        UserModel userModel = userService.getById(userData.getId());
-        if (userModel == null) {
-            return false;
-        }
-        return userModel.getRoleModels()
-                .stream()
-                .anyMatch(roleModel -> roleModel.getName().equals("ROLE_ADMIN"));
+    public boolean isAdmin(int userId) {
+        return userService.isAdmin(userId);
+    }
+
+    public boolean isGoldenCustomer(int userId) {
+        return userService.isGoldenCustomer(userId);
     }
 
     public UserData createUserData(UserModel userModel) {

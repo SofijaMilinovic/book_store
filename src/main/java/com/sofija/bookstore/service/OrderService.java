@@ -31,6 +31,9 @@ public class OrderService {
     @Value("${golden.customer.threshold}")
     private double goldenCustomerThreshold;
 
+    @Value("${golden.customer.discount}")
+    private double goldenCustomerDiscount;
+
     public List<OrderModel> getAll() {
         return orderRepository.findAll();
     }
@@ -48,13 +51,16 @@ public class OrderService {
     }
 
     private void saveOrderEntries(OrderModel createdOrderModel, List<OrderEntryModel> orderEntryModels) {
-        orderEntryModels.forEach(orderEntryModel -> orderEntryModel.setOrder(createdOrderModel));
+        orderEntryModels.forEach(orderEntryModel -> {
+            orderEntryModel.setOrder(createdOrderModel);
+            orderEntryModel.setPrice(getOrderEntryPrice(createdOrderModel.getUserModel().getId(), orderEntryModel));
+        });
         orderEntryRepository.saveAll(orderEntryModels);
         createdOrderModel.setOrderEntryModels(orderEntryModels);
     }
 
     private void promoteUserToGoldenIfConditionMet(int userId) {
-        if (isGoldenCustomer(userId)) {
+        if (userService.isGoldenCustomer(userId)) {
             return;
         }
 
@@ -63,13 +69,6 @@ public class OrderService {
         if (totalSum >= goldenCustomerThreshold) {
             userService.addRoleToUser("ROLE_GOLDEN_CUSTOMER", userId);
         }
-    }
-
-    private boolean isGoldenCustomer(int userId) {
-        return userService.getById(userId)
-                .getRoleModels()
-                .stream()
-                .anyMatch(roleModel -> roleModel.getName().equals("ROLE_GOLDEN_CUSTOMER"));
     }
 
     private List<OrderModel> getAllCompletedOrdersByUserId(int userId) {
@@ -90,6 +89,14 @@ public class OrderService {
         return completedOrders.stream()
                 .flatMap(orderModel -> orderModel.getOrderEntryModels().stream())
                 .collect(Collectors.toList());
+    }
+
+    private double getOrderEntryPrice(int userId, OrderEntryModel orderEntryModel) {
+        double orderEntryPrice = orderEntryModel.getBookModel().getPrice() * orderEntryModel.getQuantity();
+        if (userService.isGoldenCustomer(userId)) {
+            return orderEntryPrice - (orderEntryPrice * goldenCustomerDiscount);
+        }
+        return orderEntryPrice;
     }
 
     private OrderStatusModel getPendingOrderStatusModel() {

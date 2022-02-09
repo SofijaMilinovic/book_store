@@ -21,6 +21,9 @@ public class OrderEntryModel {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "price")
+    private double price;
+
     public OrderEntryModel() {
     }
 
@@ -54,6 +57,14 @@ public class OrderEntryModel {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override

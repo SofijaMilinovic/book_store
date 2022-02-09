@@ -70,6 +70,7 @@ public class OrderFacade {
         orderEntryData.setBookData(bookFacade.createBookData(orderEntryModel.getBookModel()));
         orderEntryData.setQuantity(orderEntryModel.getQuantity());
         orderEntryData.setId(orderEntryModel.getId());
+        orderEntryData.setPrice(orderEntryModel.getPrice());
         return orderEntryData;
     }
 

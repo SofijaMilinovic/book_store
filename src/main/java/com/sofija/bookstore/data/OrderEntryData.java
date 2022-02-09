@@ -9,6 +9,7 @@ public class OrderEntryData {
     private OrderData orderData;
     private BookData bookData;
     private int quantity;
+    private double price;
 
     public int getId() {
         return id;
@@ -40,5 +41,13 @@ public class OrderEntryData {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

@@ -40,7 +40,7 @@ public class AuthController {
 
     @PostMapping("/admin")
     public Response admin(@RequestBody UserData userData) {
-        boolean isAdmin = userFacade.isAdmin(userData);
+        boolean isAdmin = userFacade.isAdmin(userData.getId());
         int statusCode = isAdmin ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value();
         return ResponseUtil.createResponse(statusCode);
     }
