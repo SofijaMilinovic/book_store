@@ -28,7 +28,7 @@ public class GenreController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response getAll() {
+    public Response getAllGenres() {
         try {
             List<GenreData> genres = genreFacade.getAll();
             return ResponseUtil.createResponse(genres, HttpStatus.OK.value());

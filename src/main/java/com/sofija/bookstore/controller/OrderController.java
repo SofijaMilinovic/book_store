@@ -29,7 +29,7 @@ public class OrderController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response create(@RequestBody OrderData orderData) {
+    public Response createOrder(@RequestBody OrderData orderData) {
         try {
             OrderData createdOrderData = orderFacade.create(orderData);
             return ResponseUtil.createResponse(createdOrderData, HttpStatus.CREATED.value(), "Order placed successfully");
@@ -44,7 +44,7 @@ public class OrderController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response getAllByUserId(@PathVariable int userId) {
+    public Response getAllOrdersByUserId(@PathVariable int userId) {
         try {
             List<OrderData> orders = orderFacade.getAllByUserId(userId);
             return ResponseUtil.createResponse(orders, HttpStatus.OK.value());

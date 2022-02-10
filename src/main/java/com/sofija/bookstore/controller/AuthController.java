@@ -65,7 +65,7 @@ public class AuthController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response admin(@RequestBody UserData userData) {
+    public Response isAdmin(@RequestBody UserData userData) {
         try {
             boolean isAdmin = userFacade.isAdmin(userData.getId());
             int statusCode = isAdmin ? HttpStatus.OK.value() : HttpStatus.UNAUTHORIZED.value();

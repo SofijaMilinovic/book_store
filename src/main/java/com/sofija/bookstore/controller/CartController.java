@@ -32,7 +32,7 @@ public class CartController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response getTotalSum(@RequestBody CartData cartData) {
+    public Response getCartTotalSum(@RequestBody CartData cartData) {
         try {
             boolean goldenCustomer = userFacade.isGoldenCustomer(cartData.getUserId());
             double totalSum = cartFacade.getTotalSum(cartData, goldenCustomer);

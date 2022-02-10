@@ -28,7 +28,7 @@ public class AuthorController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response getAll() {
+    public Response getAllAuthors() {
         try {
             List<AuthorData> authors = authorFacade.getAll();
             return ResponseUtil.createResponse(authors, HttpStatus.OK.value());

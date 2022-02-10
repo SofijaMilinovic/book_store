@@ -30,7 +30,7 @@ public class BookController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response create(@RequestBody BookData bookData) {
+    public Response createBook(@RequestBody BookData bookData) {
         try {
             BookData createdBookData = bookFacade.create(bookData);
             return ResponseUtil.createResponse(createdBookData, HttpStatus.CREATED.value(), "Book successfully created");
@@ -45,7 +45,7 @@ public class BookController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response getAll() {
+    public Response getAllBooks() {
         try {
             List<BookData> books = bookFacade.getAll();
             return ResponseUtil.createResponse(books, HttpStatus.OK.value());
@@ -61,7 +61,7 @@ public class BookController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response update(@RequestBody BookData bookData) {
+    public Response updateBook(@RequestBody BookData bookData) {
         try {
             bookFacade.update(bookData);
             return ResponseUtil.createResponse(HttpStatus.OK.value(), "Book successfully updated");
@@ -76,7 +76,7 @@ public class BookController {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response delete(@PathVariable int id) {
+    public Response deleteBook(@PathVariable int id) {
         try {
             bookFacade.delete(id);
             return ResponseUtil.createResponse(HttpStatus.NO_CONTENT.value(), "Book successfully deleted");
