@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("")
 @CrossOrigin
 public class OrderController {
 
@@ -24,7 +24,7 @@ public class OrderController {
     private OrderFacade orderFacade;
 
     @RequestMapping(
-            value = "",
+            value = "/orders",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -40,7 +40,7 @@ public class OrderController {
     }
 
     @RequestMapping(
-            value = "/users/{userId}",
+            value = "/users/{userId}/orders",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -55,7 +55,7 @@ public class OrderController {
     }
 
     @RequestMapping(
-            value = "",
+            value = "/orders",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
