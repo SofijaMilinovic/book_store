@@ -55,14 +55,14 @@ public class OrderController {
     }
 
     @RequestMapping(
-            value = "/orders",
+            value = "/orders/{id}",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Response completeOrder(@RequestBody OrderData orderData) {
+    public Response completeOrder(@PathVariable int id) {
         try {
-            orderFacade.completeOrder(orderData.getId());
+            orderFacade.completeOrder(id);
             return ResponseUtil.createResponse(HttpStatus.OK.value(), "Order successfully completed");
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
