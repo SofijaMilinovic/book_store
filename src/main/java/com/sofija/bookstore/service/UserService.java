@@ -27,9 +27,9 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public UserModel getById(int userId) {
+    public UserModel getById(int userId) throws UserException {
         return userRepository.findById(userId)
-                .orElse(null);
+                .orElseThrow(() -> new UserException("User not found"));
     }
 
     public UserModel register(UserModel userModel) throws UserException {
@@ -59,14 +59,13 @@ public class UserService {
     }
 
     private boolean userContainsRole(int userId, String roleName) {
-        UserModel userModel = getById(userId);
-        if (userModel == null) {
+        try {
+            return getById(userId).getRoleModels()
+                    .stream()
+                    .anyMatch(roleModel -> roleModel.getName().equals(roleName));
+        } catch (UserException ex) {
             return false;
         }
-
-        return userModel.getRoleModels()
-                .stream()
-                .anyMatch(roleModel -> roleModel.getName().equals(roleName));
     }
 
     public void addRoleToUser(String roleName, int userId) {

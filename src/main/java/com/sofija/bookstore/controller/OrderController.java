@@ -4,6 +4,8 @@ import com.sofija.bookstore.data.OrderData;
 import com.sofija.bookstore.facade.OrderFacade;
 import com.sofija.bookstore.transfer.Response;
 import com.sofija.bookstore.transfer.ResponseUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,28 +17,41 @@ import java.util.List;
 @CrossOrigin
 public class OrderController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
+
     @Resource
     private OrderFacade orderFacade;
 
-    @GetMapping("")
-    public List<OrderData> getAll() {
-        return orderFacade.getAll();
-    }
-
     @GetMapping("/users/{userId}")
-    public List<OrderData> getAllByUserId(@PathVariable int userId) {
-        return orderFacade.getAllByUserId(userId);
+    public Response getAllByUserId(@PathVariable int userId) {
+        try {
+            List<OrderData> orders = orderFacade.getAllByUserId(userId);
+            return ResponseUtil.createResponse(orders, HttpStatus.OK.value());
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            return ResponseUtil.createErrorResponse();
+        }
     }
 
     @PostMapping("")
     public Response create(@RequestBody OrderData orderData) {
-        OrderData createdOrderData = orderFacade.create(orderData);
-        return ResponseUtil.createResponse(createdOrderData, HttpStatus.CREATED.value(), "Order placed successfully");
+        try {
+            OrderData createdOrderData = orderFacade.create(orderData);
+            return ResponseUtil.createResponse(createdOrderData, HttpStatus.CREATED.value(), "Order placed successfully");
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            return ResponseUtil.createErrorResponse();
+        }
     }
 
     @PutMapping("")
     public Response completeOrder(@RequestBody OrderData orderData) {
-        orderFacade.completeOrder(orderData.getId());
-        return ResponseUtil.createResponse(HttpStatus.OK.value(), "Order successfully completed");
+        try {
+            orderFacade.completeOrder(orderData.getId());
+            return ResponseUtil.createResponse(HttpStatus.OK.value(), "Order successfully completed");
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            return ResponseUtil.createErrorResponse();
+        }
     }
 }

@@ -23,11 +23,6 @@ public class UserFacade {
                 .collect(Collectors.toList());
     }
 
-    public UserData getById(int id) {
-        UserModel userModel = userService.getById(id);
-        return createUserData(userModel);
-    }
-
     public UserData register(UserData userData) throws UserException {
         UserModel userModel = createUserModel(userData);
         UserModel registeredUserModel = userService.register(userModel);

@@ -5,6 +5,8 @@ import com.sofija.bookstore.facade.CartFacade;
 import com.sofija.bookstore.facade.UserFacade;
 import com.sofija.bookstore.transfer.Response;
 import com.sofija.bookstore.transfer.ResponseUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,8 @@ import javax.annotation.Resource;
 @CrossOrigin
 public class CartController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
+
     @Resource
     private CartFacade cartFacade;
 
@@ -23,9 +27,14 @@ public class CartController {
 
     @PostMapping("/total-sum")
     public Response getTotalSum(@RequestBody CartData cartData) {
-        boolean goldenCustomer = userFacade.isGoldenCustomer(cartData.getUserId());
-        double totalSum = cartFacade.getTotalSum(cartData, goldenCustomer);
-        return ResponseUtil.createResponse(totalSum, HttpStatus.OK.value(), getMessage(goldenCustomer));
+        try {
+            boolean goldenCustomer = userFacade.isGoldenCustomer(cartData.getUserId());
+            double totalSum = cartFacade.getTotalSum(cartData, goldenCustomer);
+            return ResponseUtil.createResponse(totalSum, HttpStatus.OK.value(), getMessage(goldenCustomer));
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            return ResponseUtil.createErrorResponse();
+        }
     }
 
     private String getMessage(boolean goldenCustomer) {

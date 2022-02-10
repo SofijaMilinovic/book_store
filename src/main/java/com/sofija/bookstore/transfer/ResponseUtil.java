@@ -1,5 +1,7 @@
 package com.sofija.bookstore.transfer;
 
+import org.springframework.http.HttpStatus;
+
 public final class ResponseUtil {
 
     private ResponseUtil() {
@@ -17,8 +19,16 @@ public final class ResponseUtil {
         return createResponse(null, statusCode, message);
     }
 
+    public static Response createResponse(Object data, int statusCode) {
+        return createResponse(data, statusCode, null);
+    }
+
     public static Response createResponse(int statusCode) {
         return createResponse(null, statusCode, null);
+    }
+
+    public static Response createErrorResponse() {
+        return createResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Unexpected error occurred");
     }
 
     private static Response createResponse() {

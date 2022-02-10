@@ -5,6 +5,8 @@ import com.sofija.bookstore.exception.UserException;
 import com.sofija.bookstore.facade.UserFacade;
 import com.sofija.bookstore.transfer.Response;
 import com.sofija.bookstore.transfer.ResponseUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,8 @@ import javax.annotation.Resource;
 @CrossOrigin
 public class AuthController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
+
     @Resource
     private UserFacade userFacade;
 
@@ -22,9 +26,12 @@ public class AuthController {
     public Response register(@RequestBody UserData userData) {
         try {
             UserData registeredUserData = userFacade.register(userData);
-            return ResponseUtil.createResponse(registeredUserData, HttpStatus.ACCEPTED.value(), "Registration successful");
+            return ResponseUtil.createResponse(registeredUserData, HttpStatus.CREATED.value(), "Registration successful");
         } catch (UserException ex) {
             return ResponseUtil.createResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            return ResponseUtil.createErrorResponse();
         }
     }
 
@@ -35,13 +42,21 @@ public class AuthController {
             return ResponseUtil.createResponse(loggedInUserData, HttpStatus.OK.value(), "Login successful");
         } catch (UserException ex) {
             return ResponseUtil.createResponse(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            return ResponseUtil.createErrorResponse();
         }
     }
 
     @PostMapping("/admin")
     public Response admin(@RequestBody UserData userData) {
-        boolean isAdmin = userFacade.isAdmin(userData.getId());
-        int statusCode = isAdmin ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value();
-        return ResponseUtil.createResponse(statusCode);
+        try {
+            boolean isAdmin = userFacade.isAdmin(userData.getId());
+            int statusCode = isAdmin ? HttpStatus.OK.value() : HttpStatus.UNAUTHORIZED.value();
+            return ResponseUtil.createResponse(statusCode);
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            return ResponseUtil.createErrorResponse();
+        }
     }
 }
