@@ -8,6 +8,7 @@ import com.sofija.bookstore.transfer.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,31 +24,12 @@ public class BookController {
     @Resource
     private BookFacade bookFacade;
 
-    @GetMapping("")
-    public Response getAll() {
-        try {
-            List<BookData> books = bookFacade.getAll();
-            return ResponseUtil.createResponse(books, HttpStatus.OK.value());
-        } catch (Exception ex) {
-            LOG.error(ex.getMessage(), ex);
-            return ResponseUtil.createErrorResponse();
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public Response delete(@PathVariable int id) {
-        try {
-            bookFacade.delete(id);
-            return ResponseUtil.createResponse(HttpStatus.NO_CONTENT.value(), "Book successfully deleted");
-        } catch (BookException ex) {
-            return ResponseUtil.createResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
-        } catch (Exception ex) {
-            LOG.error(ex.getMessage(), ex);
-            return ResponseUtil.createErrorResponse();
-        }
-    }
-
-    @PostMapping("")
+    @RequestMapping(
+            value = "",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public Response create(@RequestBody BookData bookData) {
         try {
             BookData createdBookData = bookFacade.create(bookData);
@@ -58,11 +40,48 @@ public class BookController {
         }
     }
 
-    @PutMapping("")
+    @RequestMapping(
+            value = "",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Response getAll() {
+        try {
+            List<BookData> books = bookFacade.getAll();
+            return ResponseUtil.createResponse(books, HttpStatus.OK.value());
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            return ResponseUtil.createErrorResponse();
+        }
+    }
+
+    @RequestMapping(
+            value = "",
+            method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public Response update(@RequestBody BookData bookData) {
         try {
             bookFacade.update(bookData);
             return ResponseUtil.createResponse(HttpStatus.OK.value(), "Book successfully updated");
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            return ResponseUtil.createErrorResponse();
+        }
+    }
+
+    @RequestMapping(
+            value = "/{id}",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Response delete(@PathVariable int id) {
+        try {
+            bookFacade.delete(id);
+            return ResponseUtil.createResponse(HttpStatus.NO_CONTENT.value(), "Book successfully deleted");
+        } catch (BookException ex) {
+            return ResponseUtil.createResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
             return ResponseUtil.createErrorResponse();

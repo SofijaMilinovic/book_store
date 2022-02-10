@@ -7,6 +7,7 @@ import com.sofija.bookstore.transfer.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,18 +23,12 @@ public class OrderController {
     @Resource
     private OrderFacade orderFacade;
 
-    @GetMapping("/users/{userId}")
-    public Response getAllByUserId(@PathVariable int userId) {
-        try {
-            List<OrderData> orders = orderFacade.getAllByUserId(userId);
-            return ResponseUtil.createResponse(orders, HttpStatus.OK.value());
-        } catch (Exception ex) {
-            LOG.error(ex.getMessage(), ex);
-            return ResponseUtil.createErrorResponse();
-        }
-    }
-
-    @PostMapping("")
+    @RequestMapping(
+            value = "",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public Response create(@RequestBody OrderData orderData) {
         try {
             OrderData createdOrderData = orderFacade.create(orderData);
@@ -44,7 +39,27 @@ public class OrderController {
         }
     }
 
-    @PutMapping("")
+    @RequestMapping(
+            value = "/users/{userId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Response getAllByUserId(@PathVariable int userId) {
+        try {
+            List<OrderData> orders = orderFacade.getAllByUserId(userId);
+            return ResponseUtil.createResponse(orders, HttpStatus.OK.value());
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            return ResponseUtil.createErrorResponse();
+        }
+    }
+
+    @RequestMapping(
+            value = "",
+            method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public Response completeOrder(@RequestBody OrderData orderData) {
         try {
             orderFacade.completeOrder(orderData.getId());

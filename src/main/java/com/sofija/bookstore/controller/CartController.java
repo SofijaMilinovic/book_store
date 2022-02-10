@@ -8,6 +8,7 @@ import com.sofija.bookstore.transfer.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,7 +26,12 @@ public class CartController {
     @Resource
     private UserFacade userFacade;
 
-    @PostMapping("/total-sum")
+    @RequestMapping(
+            value = "/total-sum",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public Response getTotalSum(@RequestBody CartData cartData) {
         try {
             boolean goldenCustomer = userFacade.isGoldenCustomer(cartData.getUserId());

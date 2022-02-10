@@ -8,6 +8,7 @@ import com.sofija.bookstore.transfer.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,7 +23,12 @@ public class AuthController {
     @Resource
     private UserFacade userFacade;
 
-    @PostMapping("/register")
+    @RequestMapping(
+            value = "/register",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public Response register(@RequestBody UserData userData) {
         try {
             UserData registeredUserData = userFacade.register(userData);
@@ -35,7 +41,12 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/login")
+    @RequestMapping(
+            value = "/login",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public Response login(@RequestBody UserData userData) {
         try {
             UserData loggedInUserData = userFacade.login(userData);
@@ -48,7 +59,12 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/admin")
+    @RequestMapping(
+            value = "/admin",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public Response admin(@RequestBody UserData userData) {
         try {
             boolean isAdmin = userFacade.isAdmin(userData.getId());
